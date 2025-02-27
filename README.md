@@ -1,4 +1,4 @@
-# PrismPapers: The Transparent Research Publishing and Reviewing Platform. <DeSci>
+# PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
 
 [View on Eraser](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
 <br>
