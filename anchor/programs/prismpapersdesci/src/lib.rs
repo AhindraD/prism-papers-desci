@@ -21,6 +21,10 @@ pub mod prismpapersdesci {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        ctx.accounts.initialize(GLOBAL_FEE, &ctx.bumps)
+        ctx.accounts.initialize_platform(GLOBAL_FEE, &ctx.bumps)
+    }
+
+    pub fn user_register(ctx: Context<UserInit>, name: String) -> Result<()> {
+        ctx.accounts.user_signup(name, &ctx.bumps)
     }
 }

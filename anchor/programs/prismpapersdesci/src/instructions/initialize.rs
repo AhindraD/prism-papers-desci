@@ -31,7 +31,7 @@ pub struct Initialize<'info> {
 }
 
 impl<'info> Initialize<'info> {
-    pub fn initialize(&mut self, fee: u8, bumps: &InitializeBumps) -> Result<()> {
+    pub fn initialize_platform(&mut self, fee: u8, bumps: &InitializeBumps) -> Result<()> {
         self.platform_config.set_inner(PlatformConfig {
             admin: self.admin.key(),
             global_fee: fee,
