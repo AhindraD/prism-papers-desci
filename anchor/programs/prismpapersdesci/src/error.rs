@@ -20,6 +20,12 @@ pub enum ErrorCodes {
     #[msg("Research Paper Price Is Invalid")]
     ResearchPriceInvalid,
 
+    #[msg("Publisher Can't Buy Their Own Paper")]
+    PublisherCantBuySelfResearchPaper,
+
+    #[msg("Mathematical Operation Overflow")]
+    MathOverflow,
+
     #[msg("Review Link Is Invalid")]
     ReviewLinkInvalid,
 }

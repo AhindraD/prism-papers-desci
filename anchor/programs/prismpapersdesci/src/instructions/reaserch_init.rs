@@ -6,13 +6,13 @@ use crate::{ErrorCodes, ResearchPaperState, UserAccount, ANCHOR_DISCRIMINATOR};
 #[instruction(_uuid:u32)] //Base64 (22 bytes) uuid: Ej5FZ+iZEtOkVkJmFBdAA==
 pub struct ResearchInit<'info> {
     #[account(mut)]
-    pub owner: Signer<'info>,
+    pub publisher: Signer<'info>,
 
     #[account(
         mut,
         seeds=[
             b"user_account",
-            owner.key().as_ref(),
+            publisher.key().as_ref(),
         ],
         bump=user_account.bump
     )]
@@ -20,11 +20,11 @@ pub struct ResearchInit<'info> {
 
     #[account(
         init,
-        payer=owner,
+        payer=publisher,
         space=ANCHOR_DISCRIMINATOR as usize + ResearchPaperState::INIT_SPACE,
         seeds=[
             b"research_paper",
-            owner.key().as_ref(),
+            publisher.key().as_ref(),
             _uuid.to_le_bytes().as_ref(),
         ],
         bump
@@ -56,7 +56,7 @@ impl<'info> ResearchInit<'info> {
         );
 
         self.research_paper.set_inner(ResearchPaperState {
-            author: self.owner.key(),
+            publisher: self.publisher.key(),
             title,
             description,
             price,

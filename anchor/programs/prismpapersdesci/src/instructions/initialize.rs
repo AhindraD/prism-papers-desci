@@ -24,7 +24,8 @@ pub struct Initialize<'info> {
             b"admin_vault", 
             platform_config.key().as_ref()
             ], 
-        bump)]
+        bump
+    )]
     pub admin_vault: SystemAccount<'info>,
 
     pub system_program: Program<'info, System>,

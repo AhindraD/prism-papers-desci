@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 #[account]
 #[derive(InitSpace)]
 pub struct ResearchPaperState {
-    pub author: Pubkey,
+    pub publisher: Pubkey,
     #[max_len(32)]
     pub title: String,
     #[max_len(256)]
