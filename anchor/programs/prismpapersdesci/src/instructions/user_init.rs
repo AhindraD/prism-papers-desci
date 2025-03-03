@@ -41,7 +41,7 @@ impl <'info> UserInit<'info> {
         self.user_account.set_inner(UserAccount { 
             owner:self.owner.key(), 
             name, 
-            published:INIT_STAT as u8, 
+            published:0u8, 
             purchased: INIT_STAT, 
             reviewed: INIT_STAT, 
             earning: 0u64, 

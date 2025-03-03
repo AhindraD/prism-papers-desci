@@ -17,6 +17,9 @@ pub enum ErrorCodes {
     #[msg("Research Paper Link Is Invalid")]
     PaperLinkInvalid,
 
+    #[msg("Research Paper Price Is Invalid")]
+    ResearchPriceInvalid,
+
     #[msg("Review Link Is Invalid")]
     ReviewLinkInvalid,
 }
