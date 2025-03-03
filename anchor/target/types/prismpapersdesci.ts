@@ -14,71 +14,6 @@ export type Prismpapersdesci = {
   },
   "instructions": [
     {
-      "name": "close",
-      "discriminator": [
-        98,
-        165,
-        201,
-        177,
-        108,
-        65,
-        206,
-        96
-      ],
-      "accounts": [
-        {
-          "name": "payer",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "prismpapersdesci",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "decrement",
-      "discriminator": [
-        106,
-        227,
-        168,
-        59,
-        248,
-        27,
-        150,
-        101
-      ],
-      "accounts": [
-        {
-          "name": "prismpapersdesci",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "increment",
-      "discriminator": [
-        11,
-        18,
-        104,
-        9,
-        104,
-        174,
-        59,
-        33
-      ],
-      "accounts": [
-        {
-          "name": "prismpapersdesci",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
       "name": "initialize",
       "discriminator": [
         175,
@@ -92,14 +27,64 @@ export type Prismpapersdesci = {
       ],
       "accounts": [
         {
-          "name": "payer",
+          "name": "admin",
           "writable": true,
           "signer": true
         },
         {
-          "name": "prismpapersdesci",
+          "name": "platformConfig",
           "writable": true,
-          "signer": true
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  116,
+                  102,
+                  111,
+                  114,
+                  109,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "adminVault",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  100,
+                  109,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platformConfig"
+              }
+            ]
+          }
         },
         {
           "name": "systemProgram",
@@ -107,60 +92,81 @@ export type Prismpapersdesci = {
         }
       ],
       "args": []
-    },
-    {
-      "name": "set",
-      "discriminator": [
-        198,
-        51,
-        53,
-        241,
-        116,
-        29,
-        126,
-        194
-      ],
-      "accounts": [
-        {
-          "name": "prismpapersdesci",
-          "writable": true
-        }
-      ],
-      "args": [
-        {
-          "name": "value",
-          "type": "u8"
-        }
-      ]
     }
   ],
   "accounts": [
     {
-      "name": "prismpapersdesci",
+      "name": "platformConfig",
       "discriminator": [
-        255,
-        176,
-        4,
-        245,
-        188,
-        253,
-        124,
-        25
+        160,
+        78,
+        128,
+        0,
+        248,
+        83,
+        230,
+        160
       ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "userNameTooLong",
+      "msg": "User name Too Long"
+    },
+    {
+      "code": 6001,
+      "name": "paperTitleTooLong",
+      "msg": "Research Paper Title Too Long"
+    },
+    {
+      "code": 6002,
+      "name": "paperDescriptionTooLong",
+      "msg": "Research Paper Description Too Long"
+    },
+    {
+      "code": 6003,
+      "name": "paperLinkInvalid",
+      "msg": "Research Paper Link Is Invalid"
+    },
+    {
+      "code": 6004,
+      "name": "reviewLinkInvalid",
+      "msg": "Review Link Is Invalid"
     }
   ],
   "types": [
     {
-      "name": "prismpapersdesci",
+      "name": "platformConfig",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "count",
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "globalFee",
+            "type": "u8"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "vaultBump",
             "type": "u8"
           }
         ]
       }
+    }
+  ],
+  "constants": [
+    {
+      "name": "anchorDiscriminator",
+      "type": "u8",
+      "value": "8"
     }
   ]
 };
