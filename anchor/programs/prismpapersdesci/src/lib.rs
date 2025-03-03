@@ -19,4 +19,8 @@ declare_id!("coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF");
 #[program]
 pub mod prismpapersdesci {
     use super::*;
+
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        ctx.accounts.initialize(GLOBAL_FEE, &ctx.bumps)
+    }
 }
