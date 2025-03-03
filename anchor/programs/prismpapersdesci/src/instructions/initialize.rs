@@ -11,13 +11,19 @@ pub struct Initialize<'info> {
         init,
         payer = admin,
         space=ANCHOR_DISCRIMINATOR as usize + PlatformConfig::INIT_SPACE,
-        seeds = [b"platform_config".as_ref()],
+        seeds = [
+            b"platform_config", 
+            admin.key().as_ref()
+            ],
         bump
     )]
     pub platform_config: Account<'info, PlatformConfig>,
 
     #[account(
-        seeds = [b"admin_vault", platform_config.key().as_ref()], 
+        seeds = [
+            b"admin_vault", 
+            platform_config.key().as_ref()
+            ], 
         bump)]
     pub admin_vault: SystemAccount<'info>,
 
