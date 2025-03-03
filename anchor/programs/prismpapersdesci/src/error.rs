@@ -31,4 +31,7 @@ pub enum ErrorCodes {
 
     #[msg("Review Link Is Invalid")]
     ReviewLinkInvalid,
+
+    #[msg("Peer Review Status Is Not Pending Anymore")]
+    InvalidPeerReviewStatus,
 }

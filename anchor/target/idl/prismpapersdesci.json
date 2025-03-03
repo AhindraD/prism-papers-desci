@@ -122,6 +122,7 @@
         },
         {
           "name": "publisher_user_vault",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -450,6 +451,111 @@
       ]
     },
     {
+      "name": "review_paper",
+      "discriminator": [
+        143,
+        66,
+        152,
+        52,
+        94,
+        165,
+        129,
+        123
+      ],
+      "accounts": [
+        {
+          "name": "reviewer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reviewed_paper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reviewed_paper"
+              },
+              {
+                "kind": "arg",
+                "path": "_uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "peer_review",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  101,
+                  101,
+                  114,
+                  95,
+                  114,
+                  101,
+                  118,
+                  105,
+                  101,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reviewer"
+              },
+              {
+                "kind": "account",
+                "path": "reviewed_paper"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "_uuid",
+          "type": "u32"
+        },
+        {
+          "name": "review_url",
+          "type": "string"
+        },
+        {
+          "name": "proposed_reward",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "user_signup",
       "discriminator": [
         93,
@@ -533,9 +639,299 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "verify_review",
+      "discriminator": [
+        97,
+        251,
+        145,
+        202,
+        132,
+        80,
+        96,
+        15
+      ],
+      "accounts": [
+        {
+          "name": "publisher",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "publisher_user_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "publisher_user_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher_user_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reviewer_user_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "peer_review.reviewer",
+                "account": "PeerReview"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reviewer_user_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reviewer_user_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "platform_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  116,
+                  102,
+                  111,
+                  114,
+                  109,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platform_config.admin",
+                "account": "PlatformConfig"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  100,
+                  109,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platform_config"
+              }
+            ]
+          }
+        },
+        {
+          "name": "research_paper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              },
+              {
+                "kind": "arg",
+                "path": "_uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "peer_review",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  101,
+                  101,
+                  114,
+                  95,
+                  114,
+                  101,
+                  118,
+                  105,
+                  101,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "peer_review.reviewer",
+                "account": "PeerReview"
+              },
+              {
+                "kind": "account",
+                "path": "peer_review.reviewed_paper",
+                "account": "PeerReview"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "_uuid",
+          "type": "u32"
+        },
+        {
+          "name": "accept_proposed_review",
+          "type": "bool"
+        }
+      ]
     }
   ],
   "accounts": [
+    {
+      "name": "PeerReview",
+      "discriminator": [
+        13,
+        168,
+        128,
+        102,
+        214,
+        123,
+        208,
+        229
+      ]
+    },
     {
       "name": "PlatformConfig",
       "discriminator": [
@@ -639,9 +1035,50 @@
       "code": 6009,
       "name": "ReviewLinkInvalid",
       "msg": "Review Link Is Invalid"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidPeerReviewStatus",
+      "msg": "Peer Review Status Is Not Pending Anymore"
     }
   ],
   "types": [
+    {
+      "name": "PeerReview",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reviewer",
+            "type": "pubkey"
+          },
+          {
+            "name": "reviewed_paper",
+            "type": "pubkey"
+          },
+          {
+            "name": "review_url",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "ReviewStatus"
+              }
+            }
+          },
+          {
+            "name": "reward",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
     {
       "name": "PlatformConfig",
       "type": {
@@ -722,6 +1159,23 @@
           {
             "name": "bump",
             "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ReviewStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Pending"
+          },
+          {
+            "name": "Accepted"
+          },
+          {
+            "name": "Rejected"
           }
         ]
       }

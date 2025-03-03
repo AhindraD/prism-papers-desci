@@ -56,4 +56,13 @@ pub mod prismpapersdesci {
         ctx.accounts
             .peer_review_paper(_uuid, review_url, proposed_reward, &ctx.bumps)
     }
+
+    pub fn verify_review(
+        ctx: Context<VerifyPeerReview>,
+        _uuid: u32,
+        accept_proposed_review: bool,
+    ) -> Result<()> {
+        ctx.accounts
+            .validate_peer_review(_uuid, accept_proposed_review)
+    }
 }

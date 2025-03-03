@@ -46,6 +46,7 @@ pub struct PurchaseAccess<'info> {
     pub publisher_user_account: Account<'info, UserAccount>,
 
     #[account(
+        mut,
         seeds=[
             b"user_vault",
             publisher_user_account.key().as_ref(),
@@ -136,6 +137,10 @@ impl<'info> PurchaseAccess<'info> {
         //updating all states
         self.research_paper.sales += 1u64;
         self.buyer_user_account.purchased += 1u16;
+        self.publisher_user_account
+            .earning
+            .checked_add(publisher_amount)
+            .ok_or(error!(ErrorCodes::MathOverflow))?;
 
         Ok(())
     }

@@ -128,6 +128,7 @@ export type Prismpapersdesci = {
         },
         {
           "name": "publisherUserVault",
+          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -456,6 +457,111 @@ export type Prismpapersdesci = {
       ]
     },
     {
+      "name": "reviewPaper",
+      "discriminator": [
+        143,
+        66,
+        152,
+        52,
+        94,
+        165,
+        129,
+        123
+      ],
+      "accounts": [
+        {
+          "name": "reviewer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "reviewedPaper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reviewedPaper"
+              },
+              {
+                "kind": "arg",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "peerReview",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  101,
+                  101,
+                  114,
+                  95,
+                  114,
+                  101,
+                  118,
+                  105,
+                  101,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reviewer"
+              },
+              {
+                "kind": "account",
+                "path": "reviewedPaper"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "u32"
+        },
+        {
+          "name": "reviewUrl",
+          "type": "string"
+        },
+        {
+          "name": "proposedReward",
+          "type": "u64"
+        }
+      ]
+    },
+    {
       "name": "userSignup",
       "discriminator": [
         93,
@@ -539,9 +645,299 @@ export type Prismpapersdesci = {
           "type": "string"
         }
       ]
+    },
+    {
+      "name": "verifyReview",
+      "discriminator": [
+        97,
+        251,
+        145,
+        202,
+        132,
+        80,
+        96,
+        15
+      ],
+      "accounts": [
+        {
+          "name": "publisher",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "publisherUserAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "publisherUserVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisherUserAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reviewerUserAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "peer_review.reviewer",
+                "account": "peerReview"
+              }
+            ]
+          }
+        },
+        {
+          "name": "reviewerUserVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "reviewerUserAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "platformConfig",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  116,
+                  102,
+                  111,
+                  114,
+                  109,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platform_config.admin",
+                "account": "platformConfig"
+              }
+            ]
+          }
+        },
+        {
+          "name": "adminVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  100,
+                  109,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platformConfig"
+              }
+            ]
+          }
+        },
+        {
+          "name": "researchPaper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              },
+              {
+                "kind": "arg",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "peerReview",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  101,
+                  101,
+                  114,
+                  95,
+                  114,
+                  101,
+                  118,
+                  105,
+                  101,
+                  119
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "peer_review.reviewer",
+                "account": "peerReview"
+              },
+              {
+                "kind": "account",
+                "path": "peer_review.reviewed_paper",
+                "account": "peerReview"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "u32"
+        },
+        {
+          "name": "acceptProposedReview",
+          "type": "bool"
+        }
+      ]
     }
   ],
   "accounts": [
+    {
+      "name": "peerReview",
+      "discriminator": [
+        13,
+        168,
+        128,
+        102,
+        214,
+        123,
+        208,
+        229
+      ]
+    },
     {
       "name": "platformConfig",
       "discriminator": [
@@ -645,9 +1041,50 @@ export type Prismpapersdesci = {
       "code": 6009,
       "name": "reviewLinkInvalid",
       "msg": "Review Link Is Invalid"
+    },
+    {
+      "code": 6010,
+      "name": "invalidPeerReviewStatus",
+      "msg": "Peer Review Status Is Not Pending Anymore"
     }
   ],
   "types": [
+    {
+      "name": "peerReview",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "reviewer",
+            "type": "pubkey"
+          },
+          {
+            "name": "reviewedPaper",
+            "type": "pubkey"
+          },
+          {
+            "name": "reviewUrl",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "reviewStatus"
+              }
+            }
+          },
+          {
+            "name": "reward",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
     {
       "name": "platformConfig",
       "type": {
@@ -728,6 +1165,23 @@ export type Prismpapersdesci = {
           {
             "name": "bump",
             "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "reviewStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "pending"
+          },
+          {
+            "name": "accepted"
+          },
+          {
+            "name": "rejected"
           }
         ]
       }
