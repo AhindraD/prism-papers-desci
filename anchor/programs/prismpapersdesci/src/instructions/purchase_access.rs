@@ -25,7 +25,7 @@ pub struct PurchaseAccess<'info> {
     pub buyer_user_account: Account<'info, UserAccount>,
 
     #[account(
-        mut,    
+        mut,
         seeds=[
             b"research_paper",
             research_paper.publisher.key().as_ref(),
@@ -69,7 +69,7 @@ pub struct PurchaseAccess<'info> {
         seeds = [
             b"admin_vault", 
             platform_config.key().as_ref()
-            ], 
+            ],
         bump=platform_config.vault_bump
     )]
     pub admin_vault: SystemAccount<'info>,

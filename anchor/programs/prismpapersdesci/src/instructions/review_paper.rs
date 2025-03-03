@@ -14,7 +14,7 @@ pub struct ReviewPaper<'info> {
             b"research_paper", 
             reviewed_paper.key().as_ref(),
             _uuid.to_le_bytes().as_ref(),
-            ], 
+            ],
         bump=reviewed_paper.bump
     )]
     pub reviewed_paper: Account<'info, ResearchPaperState>,

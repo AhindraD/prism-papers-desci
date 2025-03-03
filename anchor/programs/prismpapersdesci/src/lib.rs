@@ -46,4 +46,14 @@ pub mod prismpapersdesci {
     pub fn buy_research(ctx: Context<PurchaseAccess>, _uuid: u32) -> Result<()> {
         ctx.accounts.purchase_paper_access(_uuid, &ctx.bumps)
     }
+
+    pub fn review_paper(
+        ctx: Context<ReviewPaper>,
+        _uuid: u32,
+        review_url: String,
+        proposed_reward: u64,
+    ) -> Result<()> {
+        ctx.accounts
+            .peer_review_paper(_uuid, review_url, proposed_reward, &ctx.bumps)
+    }
 }

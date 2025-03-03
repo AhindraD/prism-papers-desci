@@ -9,7 +9,7 @@ pub struct UserInit<'info> {
 
     #[account(
         init,
-        payer = owner,   
+        payer = owner,
         seeds=[
             b"user_account",
             owner.key().as_ref(),

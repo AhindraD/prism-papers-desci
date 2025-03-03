@@ -23,7 +23,7 @@ pub struct Initialize<'info> {
         seeds = [
             b"admin_vault", 
             platform_config.key().as_ref()
-            ], 
+            ],
         bump
     )]
     pub admin_vault: SystemAccount<'info>,
