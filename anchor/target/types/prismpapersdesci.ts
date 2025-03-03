@@ -638,6 +638,11 @@ export type Prismpapersdesci = {
     },
     {
       "code": 6008,
+      "name": "publisherCantReviewSelf",
+      "msg": "Publisher Can't Review Their Own Paper"
+    },
+    {
+      "code": 6009,
       "name": "reviewLinkInvalid",
       "msg": "Review Link Is Invalid"
     }

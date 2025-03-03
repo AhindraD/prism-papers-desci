@@ -632,6 +632,11 @@
     },
     {
       "code": 6008,
+      "name": "PublisherCantReviewSelf",
+      "msg": "Publisher Can't Review Their Own Paper"
+    },
+    {
+      "code": 6009,
       "name": "ReviewLinkInvalid",
       "msg": "Review Link Is Invalid"
     }

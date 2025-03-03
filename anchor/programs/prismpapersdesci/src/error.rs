@@ -26,6 +26,9 @@ pub enum ErrorCodes {
     #[msg("Mathematical Operation Overflow")]
     MathOverflow,
 
+    #[msg("Publisher Can't Review Their Own Paper")]
+    PublisherCantReviewSelf,
+
     #[msg("Review Link Is Invalid")]
     ReviewLinkInvalid,
 }
