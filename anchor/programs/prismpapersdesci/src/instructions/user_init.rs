@@ -31,22 +31,20 @@ pub struct UserInit<'info> {
     pub system_program: Program<'info, System>,
 }
 
-
-impl <'info> UserInit<'info> {
-    pub fn user_signup(&mut self,name:String,bumps:&UserInitBumps) -> Result<()> {
-
-        require!(!name.is_empty(),ErrorCodes::DataFieldEmpty);
+impl<'info> UserInit<'info> {
+    pub fn user_signup(&mut self, name: String, bumps: &UserInitBumps) -> Result<()> {
+        require!(!name.is_empty(), ErrorCodes::DataFieldEmpty);
         require!(name.len() <= 32, ErrorCodes::UserNameTooLong);
 
-        self.user_account.set_inner(UserAccount { 
-            owner:self.owner.key(), 
-            name, 
-            published:0u8, 
-            purchased: INIT_STAT, 
-            reviewed: INIT_STAT, 
-            earning: 0u64, 
-            bump: bumps.user_account, 
-            vault_bump: bumps.user_vault
+        self.user_account.set_inner(UserAccount {
+            owner: self.owner.key(),
+            name,
+            published: 0u8,
+            purchased: INIT_STAT,
+            reviewed: INIT_STAT,
+            earning: 0u64,
+            bump: bumps.user_account,
+            vault_bump: bumps.user_vault,
         });
         Ok(())
     }

@@ -35,23 +35,25 @@ pub struct ReviewPaper<'info> {
     pub system_program: Program<'info, System>,
 }
 
-
-impl <'info> ReviewPaper<'info> {
+impl<'info> ReviewPaper<'info> {
     pub fn peer_review_paper(
-        &mut self,_uuid:u32,
-        review_url:String,
-        proposed_reward:u64,
-        bumps:&ReviewPaperBumps
+        &mut self,
+        _uuid: u32,
+        review_url: String,
+        proposed_reward: u64,
+        bumps: &ReviewPaperBumps,
     ) -> Result<()> {
+        require!(
+            self.peer_review.reviewer.key() != self.reviewed_paper.publisher,
+            ErrorCodes::PublisherCantReviewSelf
+        );
 
-        require!(self.peer_review.reviewer.key()!=self.reviewed_paper.publisher,ErrorCodes::PublisherCantReviewSelf);
-        
-        self.peer_review.set_inner(PeerReview { 
-            reviewer: self.reviewer.key(), 
-            reviewed_paper:self.reviewed_paper.key(), 
-            review_url, 
-            status: ReviewStatus::Pending, 
-            reward:proposed_reward, 
+        self.peer_review.set_inner(PeerReview {
+            reviewer: self.reviewer.key(),
+            reviewed_paper: self.reviewed_paper.key(),
+            review_url,
+            status: ReviewStatus::Pending,
+            reward: proposed_reward,
             bump: bumps.peer_review,
         });
 
