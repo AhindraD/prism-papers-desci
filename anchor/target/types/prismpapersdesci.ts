@@ -562,6 +562,116 @@ export type Prismpapersdesci = {
       ]
     },
     {
+      "name": "updatePaper",
+      "discriminator": [
+        194,
+        186,
+        148,
+        8,
+        108,
+        44,
+        158,
+        137
+      ],
+      "accounts": [
+        {
+          "name": "publisher",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "userAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "researchPaper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              },
+              {
+                "kind": "arg",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "u32"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "articleUrl",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "userSignup",
       "discriminator": [
         93,

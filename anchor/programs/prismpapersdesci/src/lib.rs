@@ -65,4 +65,16 @@ pub mod prismpapersdesci {
         ctx.accounts
             .validate_peer_review(_uuid, accept_proposed_review)
     }
+
+    pub fn update_paper(
+        ctx: Context<UpdateResearch>,
+        _uuid: u32,
+        title: String,
+        description: String,
+        price: u64,
+        article_url: String,
+    ) -> Result<()> {
+        ctx.accounts
+            .update_research_paper(_uuid, title, description, price, article_url)
+    }
 }

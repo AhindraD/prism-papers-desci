@@ -556,6 +556,116 @@
       ]
     },
     {
+      "name": "update_paper",
+      "discriminator": [
+        194,
+        186,
+        148,
+        8,
+        108,
+        44,
+        158,
+        137
+      ],
+      "accounts": [
+        {
+          "name": "publisher",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              }
+            ]
+          }
+        },
+        {
+          "name": "research_paper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisher"
+              },
+              {
+                "kind": "arg",
+                "path": "_uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "_uuid",
+          "type": "u32"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "article_url",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "user_signup",
       "discriminator": [
         93,
