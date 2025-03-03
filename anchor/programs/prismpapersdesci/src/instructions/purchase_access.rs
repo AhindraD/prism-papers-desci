@@ -56,7 +56,6 @@ pub struct PurchaseAccess<'info> {
     pub publisher_user_vault: SystemAccount<'info>,
 
     #[account(
-        mut,
         seeds = [
             b"platform_config", 
             platform_config.admin.key().as_ref()

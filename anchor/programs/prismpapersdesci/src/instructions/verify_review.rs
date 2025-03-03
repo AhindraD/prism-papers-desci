@@ -54,7 +54,6 @@ pub struct VerifyPeerReview<'info> {
     pub reviewer_user_vault: SystemAccount<'info>,
 
     #[account(
-        mut,
         seeds = [
             b"platform_config", 
             platform_config.admin.key().as_ref()
@@ -116,7 +115,7 @@ impl<'info> VerifyPeerReview<'info> {
 
             let cpi_program = self.system_program.to_account_info();
             let cpi_account_options_reviewer = Transfer {
-                from: self.publisher_user_vault.to_account_info(),
+                from: self.publisher.to_account_info(),
                 to: self.reviewer_user_vault.to_account_info(),
             };
             let cpi_context_reviewer = CpiContext::new(cpi_program, cpi_account_options_reviewer);
@@ -125,7 +124,7 @@ impl<'info> VerifyPeerReview<'info> {
             //02.transferring the platform fee to the platform admin vault
             let cpi_program = self.system_program.to_account_info();
             let cpi_account_options_admin = Transfer {
-                from: self.publisher_user_vault.to_account_info(),
+                from: self.publisher.to_account_info(),
                 to: self.admin_vault.to_account_info(),
             };
             let cpi_context_admin = CpiContext::new(cpi_program, cpi_account_options_admin);

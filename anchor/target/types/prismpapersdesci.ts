@@ -155,7 +155,6 @@ export type Prismpapersdesci = {
         },
         {
           "name": "platformConfig",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -889,7 +888,6 @@ export type Prismpapersdesci = {
         },
         {
           "name": "platformConfig",
-          "writable": true,
           "pda": {
             "seeds": [
               {
@@ -1156,6 +1154,11 @@ export type Prismpapersdesci = {
       "code": 6010,
       "name": "invalidPeerReviewStatus",
       "msg": "Peer Review Status Is Not Pending Anymore"
+    },
+    {
+      "code": 6011,
+      "name": "insufficientBalanceInVault",
+      "msg": "Insufficient Balance in Vault"
     }
   ],
   "types": [

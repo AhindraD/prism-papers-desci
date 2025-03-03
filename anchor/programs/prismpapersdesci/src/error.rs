@@ -34,4 +34,7 @@ pub enum ErrorCodes {
 
     #[msg("Peer Review Status Is Not Pending Anymore")]
     InvalidPeerReviewStatus,
+
+    #[msg("Insufficient Balance in Vault")]
+    InsufficientBalanceInVault,
 }
