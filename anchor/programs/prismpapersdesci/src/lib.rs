@@ -42,4 +42,8 @@ pub mod prismpapersdesci {
         ctx.accounts
             .publish_research(title, description, price, article_url, _uuid, &ctx.bumps)
     }
+
+    pub fn buy_research(ctx: Context<PurchaseAccess>, _uuid: u32) -> Result<()> {
+        ctx.accounts.purchase_paper_access(_uuid, &ctx.bumps)
+    }
 }

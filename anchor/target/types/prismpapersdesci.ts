@@ -14,6 +14,254 @@ export type Prismpapersdesci = {
   },
   "instructions": [
     {
+      "name": "buyResearch",
+      "discriminator": [
+        253,
+        42,
+        243,
+        67,
+        68,
+        216,
+        249,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "buyer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "buyerUserAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "buyer"
+              }
+            ]
+          }
+        },
+        {
+          "name": "researchPaper",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  115,
+                  101,
+                  97,
+                  114,
+                  99,
+                  104,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "research_paper.publisher",
+                "account": "researchPaperState"
+              },
+              {
+                "kind": "arg",
+                "path": "uuid"
+              }
+            ]
+          }
+        },
+        {
+          "name": "publisherUserAccount",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "research_paper.publisher",
+                "account": "researchPaperState"
+              }
+            ]
+          }
+        },
+        {
+          "name": "publisherUserVault",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  117,
+                  115,
+                  101,
+                  114,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "publisherUserAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "platformConfig",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  108,
+                  97,
+                  116,
+                  102,
+                  111,
+                  114,
+                  109,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platform_config.admin",
+                "account": "platformConfig"
+              }
+            ]
+          }
+        },
+        {
+          "name": "adminVault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  97,
+                  100,
+                  109,
+                  105,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "platformConfig"
+              }
+            ]
+          }
+        },
+        {
+          "name": "purchasedPaperAccess",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  117,
+                  114,
+                  99,
+                  104,
+                  97,
+                  115,
+                  101,
+                  100,
+                  95,
+                  112,
+                  97,
+                  112,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "researchPaper"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "uuid",
+          "type": "u32"
+        }
+      ]
+    },
+    {
       "name": "initialize",
       "discriminator": [
         175,
@@ -111,7 +359,7 @@ export type Prismpapersdesci = {
       ],
       "accounts": [
         {
-          "name": "owner",
+          "name": "publisher",
           "writable": true,
           "signer": true
         },
@@ -139,7 +387,7 @@ export type Prismpapersdesci = {
               },
               {
                 "kind": "account",
-                "path": "owner"
+                "path": "publisher"
               }
             ]
           }
@@ -170,7 +418,7 @@ export type Prismpapersdesci = {
               },
               {
                 "kind": "account",
-                "path": "owner"
+                "path": "publisher"
               },
               {
                 "kind": "arg",
@@ -308,6 +556,19 @@ export type Prismpapersdesci = {
       ]
     },
     {
+      "name": "purchasedPaper",
+      "discriminator": [
+        185,
+        213,
+        94,
+        167,
+        215,
+        43,
+        69,
+        115
+      ]
+    },
+    {
       "name": "researchPaperState",
       "discriminator": [
         240,
@@ -367,6 +628,16 @@ export type Prismpapersdesci = {
     },
     {
       "code": 6006,
+      "name": "publisherCantBuySelfResearchPaper",
+      "msg": "Publisher Can't Buy Their Own Paper"
+    },
+    {
+      "code": 6007,
+      "name": "mathOverflow",
+      "msg": "Mathematical Operation Overflow"
+    },
+    {
+      "code": 6008,
       "name": "reviewLinkInvalid",
       "msg": "Review Link Is Invalid"
     }
@@ -397,12 +668,32 @@ export type Prismpapersdesci = {
       }
     },
     {
+      "name": "purchasedPaper",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "purchasedPaper",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
       "name": "researchPaperState",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "author",
+            "name": "publisher",
             "type": "pubkey"
           },
           {

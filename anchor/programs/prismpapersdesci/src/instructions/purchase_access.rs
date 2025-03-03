@@ -86,7 +86,7 @@ pub struct PurchaseAccess<'info> {
 
 
 impl <'info> PurchaseAccess<'info> {
-    pub fn purchased_paper_access(&mut self, _uuid:u32,bumps:&PurchaseAccessBumps) -> Result<()> {
+    pub fn purchase_paper_access(&mut self, _uuid:u32,bumps:&PurchaseAccessBumps) -> Result<()> {
         require!(self.purchased_paper_access.buyer.key() != self.research_paper.publisher.key(), ErrorCodes::PublisherCantBuySelfResearchPaper);
 
         //setting the purchased paper access state
@@ -134,7 +134,4 @@ impl <'info> PurchaseAccess<'info> {
 
         Ok(())    
     }
-
-
-
 }
