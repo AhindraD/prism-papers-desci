@@ -17,7 +17,7 @@ pub use error::*;
 // pub mod helper;
 // pub use helper::*;
 
-declare_id!("coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF");
+declare_id!("5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv");
 
 #[program]
 pub mod prismpapersdesci {

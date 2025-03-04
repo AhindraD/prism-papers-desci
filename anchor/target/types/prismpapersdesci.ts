@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/prismpapersdesci.json`.
  */
 export type Prismpapersdesci = {
-  "address": "coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF",
+  "address": "5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv",
   "metadata": {
     "name": "prismpapersdesci",
     "version": "0.1.0",
