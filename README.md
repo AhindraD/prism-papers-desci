@@ -1,6 +1,11 @@
 # PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
 
 - ## [PrismPapers - Architectural Diagram](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
+ 
+  ![image](https://github.com/user-attachments/assets/bdf852ab-567b-4bfa-98ea-fa09a5025e67)
+
+  ![image](https://github.com/user-attachments/assets/549e15a7-e074-4a51-80a7-4c1e13b580e4)
+
 
 - ## Project Overview: [PrismPapers - Teaser](https://ai.invideo.io/watch/eWg44dhBM4n)
 
