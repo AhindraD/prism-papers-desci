@@ -14,6 +14,8 @@ import {
 } from '@solana-developers/helpers';
 import { Prismpapersdesci } from '../target/types/prismpapersdesci';
 import assert from 'assert';
+import { randomInt, randomUUID } from 'crypto';
+import { use } from 'react';
 // import { before, beforeEach, it } from 'mocha';
 // import { assert, expect } from 'chai';
 
@@ -151,7 +153,7 @@ describe('PrismPapers Test Suite', () => {
     }
   });
 
-  it("User Signs Up for PrismPapers Platform.", async () => {
+  it("Walter White Signs Up for PrismPapers Platform.", async () => {
     // console.log(`<----------- User Signs Up for PrismPapers Platform ------------>`);
     try {
       const [userAccountAdress, userAccountBump] = await PublicKey.findProgramAddressSync(
@@ -162,8 +164,9 @@ describe('PrismPapers Test Suite', () => {
         [Buffer.from("user_vault"), userAccountAdress.toBuffer()],
         programId
       )
+      const user_name = "Walter White";
       const signup = await program.methods
-        .userSignup("Walter White")
+        .userSignup(user_name)
         .accountsPartial({
           owner: walter.publicKey,
           userAccount: userAccountAdress,
@@ -187,6 +190,61 @@ describe('PrismPapers Test Suite', () => {
       const userAccount = await program.account.userAccount.fetch(userAccountAdress);
       assert.equal(userAccount.owner.toString(), walter.publicKey.toString());
       assert.equal(userAccount.name, "Walter White");
+    } catch (err) {
+      assert.fail(`User signup failed! ${err}`);
+    }
+  });
+
+  it("Walter White Publishes a Research Paper.", async () => {
+    // console.log(`<----------- Walter White Publishes a Research Paper ------------>`);
+    try {
+      const uuid = new BN(randomInt(1000000));
+      console.log(`uuid: ${uuid}`);
+
+      const [userAccountAdress, userAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), walter.publicKey.toBuffer()],
+        programId
+      )
+      const [researchPaperAdress, researchPaperBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("research_paper"),
+          walter.publicKey.toBuffer(),
+          uuid.toBuffer(),
+        ],
+        programId
+      )
+      const title = "Decentralized Autonomous Organization";
+      const description = "DAO is a self-governing organization that is governed by its members, rather than by a central authority.";
+      const price = new BN(1_000_111_000);
+      const article_url = "https://gist.github.com/AhindraD/94157617728449783aed06ec876b8969";
+
+      const publish = await program.methods
+        .publishResearch(title, description, price, article_url, uuid.toNumber())
+        .accountsPartial({
+          publisher: walter.publicKey,
+          userAccount: userAccountAdress,
+          researchPaper: researchPaperAdress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: walter.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(publish);
+
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [walter]
+      );
+
+      const researchPaper = await program.account.researchPaperState.fetch(researchPaperAdress);
+      assert.equal(researchPaper.publisher.toString(), walter.publicKey.toString());
+      assert.equal(researchPaper.title, title);
+      assert.equal(researchPaper.description, description);
+      assert.equal(researchPaper.price.toNumber(), price.toNumber());
     } catch (err) {
       assert.fail(`User signup failed! ${err}`);
     }
