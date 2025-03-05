@@ -431,4 +431,130 @@ describe('PrismPapers Test Suite', () => {
       assert.fail(`Walter Failed To Verify and Accept Jimmy's Review! ${err}`);
     }
   });
+
+
+  it("Mike Ehrmantraut also Signs Up for PrismPapers Platform.", async () => {
+    try {
+      const [userAccountAddress, userAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), mike.publicKey.toBuffer()],
+        programId
+      )
+      const [userVaultAddress, userVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), userAccountAddress.toBuffer()],
+        programId
+      )
+      const user_name = "Mike Ehrmantraut";
+      const signup = await program.methods
+        .userSignup(user_name)
+        .accountsPartial({
+          owner: mike.publicKey,
+          userAccount: userAccountAddress,
+          userVault: userVaultAddress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: mike.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(signup);
+
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [mike]
+      );
+
+      const userAccount = await program.account.userAccount.fetch(userAccountAddress);
+      assert.equal(userAccount.owner.toString(), mike.publicKey.toString());
+      assert.equal(userAccount.name, "Mike Ehrmantraut");
+    } catch (err) {
+      assert.fail(`Mike Ehrmantraut signup failed! ${err}`);
+    }
+  });
+
+  it("Mike Ehrmantraut Buys Walter's Research Paper.", async () => {
+    let uuid = walter_research_id1;
+    try {
+      const [publisherUserAccountAddress, publisherUserAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), walter.publicKey.toBuffer()],
+        programId
+      );
+      const [publisherVaultAddress, publisherVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), publisherUserAccountAddress.toBuffer()],
+        programId
+      );
+
+      const [buyerUserAccountAddress, buyerUserAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), mike.publicKey.toBuffer()],
+        programId
+      );
+
+      const [researchPaperAddress, researchPaperBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("research_paper"),
+          walter.publicKey.toBuffer(),
+          uuid.toBuffer('le', 4),
+        ],
+        programId
+      );
+
+      const [platformConfigAddress, platformConfigBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("platform_config"), admin.publicKey.toBuffer()],
+        programId
+      );
+      const [adminVaultAddress, adminVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("admin_vault"), platformConfigAddress.toBuffer()],
+        programId
+      );
+
+      const [purchaseOrderAddress, purchaseOrderBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("purchased_paper"),
+          mike.publicKey.toBuffer(),
+          researchPaperAddress.toBuffer(),
+        ],
+        programId
+      );
+
+      const buy = await program.methods
+        .buyResearch(uuid.toNumber())
+        .accountsPartial({
+          buyer: mike.publicKey,
+          publisherUserAccount: publisherUserAccountAddress,
+          publisherUserVault: publisherVaultAddress,
+          buyerUserAccount: buyerUserAccountAddress,
+          purchasedPaperAccess: purchaseOrderAddress,
+          platformConfig: platformConfigAddress,
+          adminVault: adminVaultAddress,
+          researchPaper: researchPaperAddress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: mike.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(buy);
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [mike]
+      );
+
+      const researchPaper = await program.account.researchPaperState.fetch(researchPaperAddress);
+      assert.equal(researchPaper.sales.toString(), 1);
+
+      const purchaseOrder = await program.account.purchasedPaper.fetch(purchaseOrderAddress);
+      assert.equal(purchaseOrder.buyer.toString(), mike.publicKey.toString());
+      assert.equal(purchaseOrder.purchasedPaper.toString(), researchPaperAddress.toString());
+
+      const buyerUserAccount = await program.account.userAccount.fetch(buyerUserAccountAddress);
+      assert.equal(buyerUserAccount.purchased, 1);
+    } catch (err) {
+      assert.fail(`Mike Failed To Buy Walter's Research Paper! ${err}`);
+    }
+  });
 })
