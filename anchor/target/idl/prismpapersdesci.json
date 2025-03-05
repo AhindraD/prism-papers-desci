@@ -428,6 +428,10 @@
       ],
       "args": [
         {
+          "name": "_uuid",
+          "type": "u32"
+        },
+        {
           "name": "title",
           "type": "string"
         },
@@ -442,10 +446,6 @@
         {
           "name": "article_url",
           "type": "string"
-        },
-        {
-          "name": "_uuid",
-          "type": "u32"
         }
       ]
     },

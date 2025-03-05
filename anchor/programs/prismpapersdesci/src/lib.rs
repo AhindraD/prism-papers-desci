@@ -33,11 +33,11 @@ pub mod prismpapersdesci {
 
     pub fn publish_research(
         ctx: Context<ResearchInit>,
+        _uuid: u32, //have to keep it on top/first arg as passing it to derive(Accounts)->instruction #[instruction(_uuid:u32)]
         title: String,
         description: String,
         price: u64,
         article_url: String,
-        _uuid: u32,
     ) -> Result<()> {
         ctx.accounts
             .publish_research(title, description, price, article_url, _uuid, &ctx.bumps)

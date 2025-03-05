@@ -189,6 +189,8 @@ describe('PrismPapers Test Suite', () => {
       const userAccount = await program.account.userAccount.fetch(userAccountAdress);
       assert.equal(userAccount.owner.toString(), walter.publicKey.toString());
       assert.equal(userAccount.name, "Walter White");
+      // console.log(userAccountAdress.toString(), userAccountBump);
+      // console.log(userAccount.owner.toString(), userAccount.earning);
     } catch (err) {
       assert.fail(`User signup failed! ${err}`);
     }
@@ -198,12 +200,17 @@ describe('PrismPapers Test Suite', () => {
     // console.log(`<----------- Walter White Publishes a Research Paper ------------>`);
     try {
       const uuid = new BN(randomBytes(4));
-      console.log(`uuid: ${uuid}`);
+      // console.log(`uuid: ${uuid}`);
+      // console.log(uuid.toBuffer('le', 4));
+      // console.log(walter.publicKey.toString());
 
       const [userAccountAdress, userAccountBump] = await PublicKey.findProgramAddressSync(
         [Buffer.from("user_account"), walter.publicKey.toBuffer()],
         programId
       )
+      // console.log(userAccountAdress.toString(), userAccountBump);
+      // console.log(walter.publicKey.toString());
+
       const [researchPaperAdress, researchPaperBump] = await PublicKey.findProgramAddressSync(
         [
           Buffer.from("research_paper"),
@@ -212,13 +219,13 @@ describe('PrismPapers Test Suite', () => {
         ],
         programId
       )
-      const title = "Decentralized Autonomous Organization";
+      const title = "Decentralized Auto. Org.";
       const description = "DAO is a self-governing organization that is governed by its members, rather than by a central authority.";
       const price = new BN(1_000_111_000);
       const article_url = "https://gist.github.com/AhindraD/94157617728449783aed06ec876b8969";
 
       const publish = await program.methods
-        .publishResearch(title, description, price, article_url, uuid.toNumber())
+        .publishResearch(uuid.toNumber(), title, description, price, article_url)
         .accountsPartial({
           publisher: walter.publicKey,
           userAccount: userAccountAdress,
@@ -232,7 +239,6 @@ describe('PrismPapers Test Suite', () => {
         blockhash: blockhash,
         lastValidBlockHeight: lastValidBlockHeight,
       }).add(publish);
-
       const signature = await anchor.web3.sendAndConfirmTransaction(
         connection,
         txn,

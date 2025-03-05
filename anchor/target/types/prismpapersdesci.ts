@@ -434,6 +434,10 @@ export type Prismpapersdesci = {
       ],
       "args": [
         {
+          "name": "uuid",
+          "type": "u32"
+        },
+        {
           "name": "title",
           "type": "string"
         },
@@ -448,10 +452,6 @@ export type Prismpapersdesci = {
         {
           "name": "articleUrl",
           "type": "string"
-        },
-        {
-          "name": "uuid",
-          "type": "u32"
         }
       ]
     },
