@@ -140,11 +140,11 @@ impl<'info> VerifyPeerReview<'info> {
                 .checked_add(reviewer_reward)
                 .ok_or(error!(ErrorCodes::MathOverflow))?;
 
-            //05.update the user account of the publisher
-            self.publisher_user_account
-                .earning
-                .checked_sub(total_amount)
-                .ok_or(error!(ErrorCodes::MathOverflow))?;
+            //05.update the user account of the publisher - No NEED, not trasfering from vault anymore - Errors if Publisher vault is Empty, so sending reawrds from sysAccount
+            // self.publisher_user_account
+            //     .earning
+            //     .checked_sub(total_amount)
+            //     .ok_or(error!(ErrorCodes::MathOverflow))?;
 
             //06.update the research paper state
             self.research_paper.reviews += 1u64;

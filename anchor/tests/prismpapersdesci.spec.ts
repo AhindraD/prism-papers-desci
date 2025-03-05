@@ -338,8 +338,97 @@ describe('PrismPapers Test Suite', () => {
       assert.equal(peerReview.reviewedPaper.toString(), researchPaperAddress.toString());
       assert.equal(peerReview.reviewUrl, review_url);
       assert.equal(peerReview.reward.toNumber(), proposed_reward.toNumber());
+      assert.ok(peerReview.status.pending)
     } catch (err) {
       assert.fail(`Jimmy Failed To Review Walter's Research Paper! ${err}`);
+    }
+  });
+
+  it("Walter Verifies & Accepts Jimmy's Review and Pays Reward.", async () => {
+    let uuid = walter_research_id1;
+    try {
+      const [publisherUserAccountAddress, publisherUserAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), walter.publicKey.toBuffer()],
+        programId
+      );
+      const [publisherVaultAddress, publisherVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), publisherUserAccountAddress.toBuffer()],
+        programId
+      );
+
+      const [reviewerUserAccountAddress, reviewerUserAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), jimmy.publicKey.toBuffer()],
+        programId
+      );
+      const [reviewerVaultAddress, reviewerVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), reviewerUserAccountAddress.toBuffer()],
+        programId
+      );
+
+      const [configAccountAddress, bump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("platform_config"),
+        admin.publicKey.toBuffer()],
+        programId
+      );
+      const [adminVaultAddress, adminVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("admin_vault"), configAccountAddress.toBuffer()],
+        programId
+      );
+
+      const [researchPaperAddress, researchPaperBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("research_paper"),
+          walter.publicKey.toBuffer(),
+          uuid.toBuffer('le', 4),
+        ],
+        programId
+      );
+      const [peerReviewAddress, peerReviewBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("peer_review"),
+          jimmy.publicKey.toBuffer(),
+          researchPaperAddress.toBuffer(),
+        ],
+        programId
+      );
+
+      const verify = await program.methods
+        .verifyReview(uuid.toNumber(), true)
+        .accountsPartial({
+          publisher: walter.publicKey,
+          publisherUserAccount: publisherUserAccountAddress,
+          publisherUserVault: publisherVaultAddress,
+          reviewerUserAccount: reviewerUserAccountAddress,
+          reviewerUserVault: reviewerVaultAddress,
+          platformConfig: configAccountAddress,
+          adminVault: adminVaultAddress,
+          researchPaper: researchPaperAddress,
+          peerReview: peerReviewAddress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: walter.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(verify);
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [walter]
+      );
+
+      const peerReview = await program.account.peerReview.fetch(peerReviewAddress);
+      assert.ok(peerReview.status.accepted);
+
+      const researchPaper = await program.account.researchPaperState.fetch(researchPaperAddress);
+      assert.equal(researchPaper.reviews, 1);
+
+      const reviewerUserAccount = await program.account.userAccount.fetch(reviewerUserAccountAddress);
+      assert.equal(reviewerUserAccount.reviewed, 1);
+    } catch (err) {
+      assert.fail(`Walter Failed To Verify and Accept Jimmy's Review! ${err}`);
     }
   });
 })
