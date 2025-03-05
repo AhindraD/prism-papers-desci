@@ -27,7 +27,7 @@ For this Task you need:
   ```
 - [Solana installed](https://docs.solana.com/cli/install-solana-cli-tools)
 
-  - Use v1.18.18
+  - Use v2.1.5
   - After you have Solana-CLI installed, you can switch between versions using:
 
   ```bash
@@ -89,22 +89,7 @@ anchor build
   <br>
   <br>
   <br>
-<!-- 
-### 02. Web App - Frontend
 
-1. Go to the deployed frontend at https://notesols-dapp.vercel.app/notesols
-
-Or,
-
-2. Run the development server at the root directory:
-
-```bash
-npm run dev
-```
-
--->
-
-5. Open http://localhost:3000/notesols in your browser to see the result, and ineteract with the program.
 
 ![image](https://github.com/user-attachments/assets/e510f506-e8ea-4dbf-b009-d0bcf11ffbf4)
 
