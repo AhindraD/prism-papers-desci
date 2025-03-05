@@ -12,7 +12,7 @@ pub struct ReviewPaper<'info> {
         mut,
         seeds=[
             b"research_paper", 
-            reviewed_paper.key().as_ref(),
+            reviewed_paper.publisher.key().as_ref(),
             _uuid.to_le_bytes().as_ref(),
             ],
         bump=reviewed_paper.bump

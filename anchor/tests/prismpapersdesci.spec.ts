@@ -36,6 +36,9 @@ describe('PrismPapers Test Suite', () => {
   //Create User (Buyer) keypair
   const mike = Keypair.generate();
 
+  const walter_research_id1 = new BN(randomBytes(4));
+  const walter_research_id2 = new BN(randomBytes(4));
+
   beforeAll(async () => {
     console.log(`airdroping...`);
     const all_wallets = [admin, walter, jimmy, jesse, mike];
@@ -81,17 +84,17 @@ describe('PrismPapers Test Suite', () => {
     }
 
     //Check Platform Config PDA address
-    const [configAccountAdress, bump] = await PublicKey.findProgramAddressSync(
+    const [configAccountAddress, bump] = await PublicKey.findProgramAddressSync(
       [Buffer.from("platform_config"), admin.publicKey.toBuffer()],
       programId
     );
-    const [vaultAccountAdress, vaultBump] = await PublicKey.findProgramAddressSync(
-      [Buffer.from("vault"), configAccountAdress.toBuffer()],
+    const [vaultAccountAddress, vaultBump] = await PublicKey.findProgramAddressSync(
+      [Buffer.from("vault"), configAccountAddress.toBuffer()],
       programId
     );
 
     const configAccount = await program.account.platformConfig.fetch(
-      configAccountAdress
+      configAccountAddress
     );
 
 
@@ -105,7 +108,6 @@ describe('PrismPapers Test Suite', () => {
       "Admin public key not found in PrismPapers Platform admins list!"
     );
   });
-
 
   it(`Admin CANNOT RE-Initialize Platform and Vault.`, async () => {
     // console.log(`<----------- REInitializing PrismPapers Platform ------------>`);
@@ -136,15 +138,16 @@ describe('PrismPapers Test Suite', () => {
     }
   });
 
+
   it("Walter White Signs Up for PrismPapers Platform.", async () => {
     // console.log(`<----------- User Signs Up for PrismPapers Platform ------------>`);
     try {
-      const [userAccountAdress, userAccountBump] = await PublicKey.findProgramAddressSync(
+      const [userAccountAddress, userAccountBump] = await PublicKey.findProgramAddressSync(
         [Buffer.from("user_account"), walter.publicKey.toBuffer()],
         programId
       )
-      const [userVaultAdress, userVaultBump] = await PublicKey.findProgramAddressSync(
-        [Buffer.from("user_vault"), userAccountAdress.toBuffer()],
+      const [userVaultAddress, userVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), userAccountAddress.toBuffer()],
         programId
       )
       const user_name = "Walter White";
@@ -152,8 +155,8 @@ describe('PrismPapers Test Suite', () => {
         .userSignup(user_name)
         .accountsPartial({
           owner: walter.publicKey,
-          userAccount: userAccountAdress,
-          userVault: userVaultAdress,
+          userAccount: userAccountAddress,
+          userVault: userVaultAddress,
           systemProgram: anchor.web3.SystemProgram.programId
         })
         .instruction();
@@ -170,28 +173,28 @@ describe('PrismPapers Test Suite', () => {
         [walter]
       );
 
-      const userAccount = await program.account.userAccount.fetch(userAccountAdress);
+      const userAccount = await program.account.userAccount.fetch(userAccountAddress);
       assert.equal(userAccount.owner.toString(), walter.publicKey.toString());
       assert.equal(userAccount.name, "Walter White");
     } catch (err) {
-      assert.fail(`User signup failed! ${err}`);
+      assert.fail(`Walter White signup failed! ${err}`);
     }
   });
 
   it("Walter White Publishes a Research Paper.", async () => {
     // console.log(`<----------- Walter White Publishes a Research Paper ------------>`);
     try {
-      const uuid = new BN(randomBytes(4));
+      const uuid = walter_research_id1;
       // console.log(`uuid: ${uuid}`);
       // console.log(uuid.toBuffer('le', 4));
       // console.log(walter.publicKey.toString());
 
-      const [userAccountAdress, userAccountBump] = await PublicKey.findProgramAddressSync(
+      const [userAccountAddress, userAccountBump] = await PublicKey.findProgramAddressSync(
         [Buffer.from("user_account"), walter.publicKey.toBuffer()],
         programId
       )
 
-      const [researchPaperAdress, researchPaperBump] = await PublicKey.findProgramAddressSync(
+      const [researchPaperAddress, researchPaperBump] = await PublicKey.findProgramAddressSync(
         [
           Buffer.from("research_paper"),
           walter.publicKey.toBuffer(),
@@ -208,8 +211,8 @@ describe('PrismPapers Test Suite', () => {
         .publishResearch(uuid.toNumber(), title, description, price, article_url)
         .accountsPartial({
           publisher: walter.publicKey,
-          userAccount: userAccountAdress,
-          researchPaper: researchPaperAdress,
+          userAccount: userAccountAddress,
+          researchPaper: researchPaperAddress,
           systemProgram: anchor.web3.SystemProgram.programId
         })
         .instruction();
@@ -225,13 +228,118 @@ describe('PrismPapers Test Suite', () => {
         [walter]
       );
 
-      const researchPaper = await program.account.researchPaperState.fetch(researchPaperAdress);
+      const researchPaper = await program.account.researchPaperState.fetch(researchPaperAddress);
       assert.equal(researchPaper.publisher.toString(), walter.publicKey.toString());
       assert.equal(researchPaper.title, title);
       assert.equal(researchPaper.description, description);
       assert.equal(researchPaper.price.toNumber(), price.toNumber());
     } catch (err) {
       assert.fail(`Failed To Publish Research Paper! ${err}`);
+    }
+  });
+
+
+  it("Jimmy McGill also Signs Up for PrismPapers Platform.", async () => {
+    try {
+      const [userAccountAddress, userAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), jimmy.publicKey.toBuffer()],
+        programId
+      )
+      const [userVaultAddress, userVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), userAccountAddress.toBuffer()],
+        programId
+      )
+      const user_name = "Jimmy McGill";
+      const signup = await program.methods
+        .userSignup(user_name)
+        .accountsPartial({
+          owner: jimmy.publicKey,
+          userAccount: userAccountAddress,
+          userVault: userVaultAddress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: jimmy.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(signup);
+
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [jimmy]
+      );
+
+      const userAccount = await program.account.userAccount.fetch(userAccountAddress);
+      assert.equal(userAccount.owner.toString(), jimmy.publicKey.toString());
+      assert.equal(userAccount.name, "Jimmy McGill");
+    } catch (err) {
+      assert.fail(`Jimmy McGill signup failed! ${err}`);
+    }
+  });
+
+  it("Jimmy McGill Reviews Walter's Research Paper.", async () => {
+    // console.log(`<----------- Jimmy McGill Reviews a Research Paper ------------>`);
+    let uuid = walter_research_id1;
+    try {
+      const [userAccountAddress, userAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), jimmy.publicKey.toBuffer()],
+        programId
+      )
+      const [researchPaperAddress, researchPaperBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("research_paper"),
+          walter.publicKey.toBuffer(),
+          uuid.toBuffer('le', 4),
+        ],
+        programId
+      )
+      const [peerReviewAddress, peerReviewBump] = await PublicKey.findProgramAddressSync(
+        [
+          Buffer.from("peer_review"),
+          jimmy.publicKey.toBuffer(),
+          researchPaperAddress.toBuffer(),
+        ],
+        programId
+      )
+
+      const review_url = "https://gist.github.com/AhindraD/94157617728449783aed06ec876b8969";
+      const proposed_reward = new BN(100_111_000);
+
+      const review = await program.methods
+        .reviewPaper(
+          uuid.toNumber(),
+          review_url,
+          proposed_reward
+        )
+        .accountsPartial({
+          reviewer: jimmy.publicKey,
+          reviewedPaper: researchPaperAddress,
+          peerReview: peerReviewAddress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: jimmy.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(review);
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [jimmy]
+      );
+
+      const peerReview = await program.account.peerReview.fetch(peerReviewAddress);
+      assert.equal(peerReview.reviewer.toString(), jimmy.publicKey.toString());
+      assert.equal(peerReview.reviewedPaper.toString(), researchPaperAddress.toString());
+      assert.equal(peerReview.reviewUrl, review_url);
+      assert.equal(peerReview.reward.toNumber(), proposed_reward.toNumber());
+    } catch (err) {
+      assert.fail(`Jimmy Failed To Review Walter's Research Paper! ${err}`);
     }
   });
 })

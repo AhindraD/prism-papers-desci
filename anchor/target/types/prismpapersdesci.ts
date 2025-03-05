@@ -499,7 +499,8 @@ export type Prismpapersdesci = {
               },
               {
                 "kind": "account",
-                "path": "reviewedPaper"
+                "path": "reviewed_paper.publisher",
+                "account": "researchPaperState"
               },
               {
                 "kind": "arg",

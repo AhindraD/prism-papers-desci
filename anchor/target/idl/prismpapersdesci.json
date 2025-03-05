@@ -493,7 +493,8 @@
               },
               {
                 "kind": "account",
-                "path": "reviewed_paper"
+                "path": "reviewed_paper.publisher",
+                "account": "ResearchPaperState"
               },
               {
                 "kind": "arg",
