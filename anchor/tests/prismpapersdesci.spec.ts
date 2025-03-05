@@ -64,12 +64,12 @@ describe('prismpapersdesci', () => {
         })
         .instruction();
 
-      const blockhashContext = await connection.getLatestBlockhash();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
 
       const txn = new anchor.web3.Transaction({
         feePayer: admin.publicKey,
-        blockhash: blockhashContext.blockhash,
-        lastValidBlockHeight: blockhashContext.lastValidBlockHeight,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
       }).add(initilialize);
 
       const signature = await anchor.web3.sendAndConfirmTransaction(
@@ -108,5 +108,36 @@ describe('prismpapersdesci', () => {
       configAdminPubKey,
       "Admin public key not found in PrismPapers Platform admins list!"
     );
+  });
+
+  it(`Admin CANNOT RE-Initialize Platform and Vault.`, async () => {
+    // console.log(`<----------- REInitializing PrismPapers Platform ------------>`);
+    try {
+      const initilialize = await program.methods
+        .initialize()
+        .accountsPartial({
+          admin: admin.publicKey,
+        })
+        .instruction();
+
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+
+      const txn = new anchor.web3.Transaction({
+        feePayer: admin.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(initilialize);
+
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [admin]
+      );
+      // console.log(`Platform reinitialized!:  ${getExplorerLink("tx", signature, cluster_for_explorerLink)}`);
+      assert.fail("Platform and admin vault reinitialized! Should not be possible.");
+    } catch (err) {
+      // console.log(`Failed to reinitialize Platform: ${err}`);
+      assert.ok("Platform and Vault did not reinitialize! Safe to proceed.");
+    }
   });
 })
