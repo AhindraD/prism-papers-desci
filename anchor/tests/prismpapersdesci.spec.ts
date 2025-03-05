@@ -17,14 +17,15 @@ import assert from 'assert';
 // import { before, beforeEach, it } from 'mocha';
 // import { assert, expect } from 'chai';
 
-describe('prismpapersdesci', () => {
+describe('PrismPapers Test Suite', () => {
   // Configure the client to use the local cluster.
   const cluster_for_explorerLink = 'localnet';
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
   const connection = provider.connection;
-  const programId = new PublicKey('5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv');
   const program = anchor.workspace.Prismpapersdesci as Program<Prismpapersdesci>;
+  const programId = program.programId;
+  // const programId = new PublicKey('5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv');
   // const payer = provider.wallet as anchor.Wallet;
   // const prismpapersdesciKeypair = Keypair.generate();
 
@@ -61,6 +62,7 @@ describe('prismpapersdesci', () => {
         .initialize()
         .accountsPartial({
           admin: admin.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId
         })
         .instruction();
 
@@ -87,13 +89,20 @@ describe('prismpapersdesci', () => {
       [Buffer.from("platform_config"), admin.publicKey.toBuffer()],
       programId
     );
+    const [vaultAccountAdress, vaultBump] = await PublicKey.findProgramAddressSync(
+      [Buffer.from("vault"), configAccountAdress.toBuffer()],
+      programId
+    );
     // console.log(
     //   `
     //     Platform Config PDA: ${configAccountAdress.toString()}
-    //     Bump: ${bump}
+    //     Platform Config Bump: ${bump}
+    //     Vault PDA: ${vaultAccountAdress.toString()}
+    //     Vault Bump: ${vaultBump}
     //   `
     // );
-    // Fetch the config PDA
+
+    // Fetch the config state
     const configAccount = await program.account.platformConfig.fetch(
       configAccountAdress
     );
@@ -109,6 +118,7 @@ describe('prismpapersdesci', () => {
       "Admin public key not found in PrismPapers Platform admins list!"
     );
   });
+
 
   it(`Admin CANNOT RE-Initialize Platform and Vault.`, async () => {
     // console.log(`<----------- REInitializing PrismPapers Platform ------------>`);
@@ -138,6 +148,47 @@ describe('prismpapersdesci', () => {
     } catch (err) {
       // console.log(`Failed to reinitialize Platform: ${err}`);
       assert.ok("Platform and Vault did not reinitialize! Safe to proceed.");
+    }
+  });
+
+  it("User Signs Up for PrismPapers Platform.", async () => {
+    // console.log(`<----------- User Signs Up for PrismPapers Platform ------------>`);
+    try {
+      const [userAccountAdress, userAccountBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_account"), walter.publicKey.toBuffer()],
+        programId
+      )
+      const [userVaultAdress, userVaultBump] = await PublicKey.findProgramAddressSync(
+        [Buffer.from("user_vault"), userAccountAdress.toBuffer()],
+        programId
+      )
+      const signup = await program.methods
+        .userSignup("Walter White")
+        .accountsPartial({
+          owner: walter.publicKey,
+          userAccount: userAccountAdress,
+          userVault: userVaultAdress,
+          systemProgram: anchor.web3.SystemProgram.programId
+        })
+        .instruction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const txn = new anchor.web3.Transaction({
+        feePayer: walter.publicKey,
+        blockhash: blockhash,
+        lastValidBlockHeight: lastValidBlockHeight,
+      }).add(signup);
+
+      const signature = await anchor.web3.sendAndConfirmTransaction(
+        connection,
+        txn,
+        [walter]
+      );
+
+      const userAccount = await program.account.userAccount.fetch(userAccountAdress);
+      assert.equal(userAccount.owner.toString(), walter.publicKey.toString());
+      assert.equal(userAccount.name, "Walter White");
+    } catch (err) {
+      assert.fail(`User signup failed! ${err}`);
     }
   });
 })
