@@ -29,7 +29,8 @@
   <br>
 
 - ## Run Anchor Program and Tests Locally:
-
+  - ### [Anchor Program Files](https://github.com/AhindraD/prism-papers-desci/tree/main/anchor/programs/prismpapersdesci/src)
+  - ### [Test File](https://github.com/AhindraD/prism-papers-desci/blob/main/anchor/tests/prismpapersdesci.spec.ts)
   1. Clone the repository:
 
   ```bash
