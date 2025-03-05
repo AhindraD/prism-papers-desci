@@ -15,8 +15,6 @@ import {
 import { Prismpapersdesci } from '../target/types/prismpapersdesci';
 import assert from 'assert';
 import { randomBytes } from 'crypto';
-// import { before, beforeEach, it } from 'mocha';
-// import { assert, expect } from 'chai';
 
 describe('PrismPapers Test Suite', () => {
   // Configure the client to use the local cluster.
@@ -26,9 +24,6 @@ describe('PrismPapers Test Suite', () => {
   const connection = provider.connection;
   const program = anchor.workspace.Prismpapersdesci as Program<Prismpapersdesci>;
   const programId = program.programId;
-  // const programId = new PublicKey('5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv');
-  // const payer = provider.wallet as anchor.Wallet;
-  // const prismpapersdesciKeypair = Keypair.generate();
 
   //Create Admin keypair
   const admin = Keypair.generate();
@@ -94,21 +89,12 @@ describe('PrismPapers Test Suite', () => {
       [Buffer.from("vault"), configAccountAdress.toBuffer()],
       programId
     );
-    // console.log(
-    //   `
-    //     Platform Config PDA: ${configAccountAdress.toString()}
-    //     Platform Config Bump: ${bump}
-    //     Vault PDA: ${vaultAccountAdress.toString()}
-    //     Vault Bump: ${vaultBump}
-    //   `
-    // );
 
-    // Fetch the config state
     const configAccount = await program.account.platformConfig.fetch(
       configAccountAdress
     );
 
-    // Convert admin.publicKey and configAccount.admins to strings for comparison
+
     const adminPubKey = admin.publicKey.toString();
     const configAdminPubKey = configAccount.admin.toString();
 
@@ -144,10 +130,8 @@ describe('PrismPapers Test Suite', () => {
         txn,
         [admin]
       );
-      // console.log(`Platform reinitialized!:  ${getExplorerLink("tx", signature, cluster_for_explorerLink)}`);
       assert.fail("Platform and admin vault reinitialized! Should not be possible.");
     } catch (err) {
-      // console.log(`Failed to reinitialize Platform: ${err}`);
       assert.ok("Platform and Vault did not reinitialize! Safe to proceed.");
     }
   });
@@ -189,8 +173,6 @@ describe('PrismPapers Test Suite', () => {
       const userAccount = await program.account.userAccount.fetch(userAccountAdress);
       assert.equal(userAccount.owner.toString(), walter.publicKey.toString());
       assert.equal(userAccount.name, "Walter White");
-      // console.log(userAccountAdress.toString(), userAccountBump);
-      // console.log(userAccount.owner.toString(), userAccount.earning);
     } catch (err) {
       assert.fail(`User signup failed! ${err}`);
     }
@@ -208,8 +190,6 @@ describe('PrismPapers Test Suite', () => {
         [Buffer.from("user_account"), walter.publicKey.toBuffer()],
         programId
       )
-      // console.log(userAccountAdress.toString(), userAccountBump);
-      // console.log(walter.publicKey.toString());
 
       const [researchPaperAdress, researchPaperBump] = await PublicKey.findProgramAddressSync(
         [
@@ -245,13 +225,13 @@ describe('PrismPapers Test Suite', () => {
         [walter]
       );
 
-      // const researchPaper = await program.account.researchPaperState.fetch(researchPaperAdress);
-      // assert.equal(researchPaper.publisher.toString(), walter.publicKey.toString());
-      // assert.equal(researchPaper.title, title);
-      // assert.equal(researchPaper.description, description);
-      // assert.equal(researchPaper.price.toNumber(), price.toNumber());
+      const researchPaper = await program.account.researchPaperState.fetch(researchPaperAdress);
+      assert.equal(researchPaper.publisher.toString(), walter.publicKey.toString());
+      assert.equal(researchPaper.title, title);
+      assert.equal(researchPaper.description, description);
+      assert.equal(researchPaper.price.toNumber(), price.toNumber());
     } catch (err) {
-      assert.fail(`User signup failed! ${err}`);
+      assert.fail(`Failed To Publish Research Paper! ${err}`);
     }
   });
 })
