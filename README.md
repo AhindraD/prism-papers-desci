@@ -1,4 +1,7 @@
-# PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
+![Screenshot 2025-01-08 153657](https://github.com/user-attachments/assets/a711cf94-86c1-44e4-8a34-85f46cf8ac5a)
+ ### Proof Of Work During My Time In TURBIN3 Builders Cohort Q1 2025 :  [Q1_25_Builder_AhindraD](https://github.com/solana-turbin3/Q1_25_Builder_AhindraD)
+ 
+# CAPSTONE - PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
 
 - ## [PrismPapers - Architectural Diagram](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
  
