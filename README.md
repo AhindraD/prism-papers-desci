@@ -1,101 +1,111 @@
 # PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
 
-[View on Eraser](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
+# [PrismPapers - Architectural Diagram](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
+
 <br>
+
+##  Project Overview
+
+- **PrismPapers:**\
+  The Transparent Research Publishing and Reviewing Platform.
+  
+  ## [PrismPapers - Teaser](https://ai.invideo.io/watch/eWg44dhBM4n)
+
+  Traditional academic publishing takes forever, costs too much, and is often opaque. PrismPapers is my way of fixing this mess. With blockchain, we can make the whole process speedy, transparent, and rewarding for everyone involved. Plus, I’m a tech geek who loves using blockchain to solve real-world problems
+
+
+## Project Setup
+
+### Environment Setup
+
+For this Task you need:
+
+- [Rust installed](https://www.rust-lang.org/tools/install)
+  - Make sure to use a stable version:
+  ```bash
+  rustup default stable
+  ```
+- [Solana installed](https://docs.solana.com/cli/install-solana-cli-tools)
+
+  - Use v1.18.18
+  - After you have Solana-CLI installed, you can switch between versions using:
+
+  ```bash
+  agave-install init 2.1.5
+  ```
+
+- [Anchor installed](https://www.anchor-lang.com/docs/installation)
+
+  - Use v0.30.1
+  - After you have Anchor installed, you can switch between versions using:
+
+  ```bash
+  avm use 0.30.1
+  ```
+
+  <br>
+  <br>
+  <br>
+
+### 01. Anchor Program with Tests
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/AhindraD/prism-papers-desci.git
+```
+
+2. Change the directory to the "notesols" folder of the cloned repository:
+
+```bash
+cd prism-papers-desci
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Change the directory to the anchor folder:
+
+```bash
+cd anchor
+```
+
+5. Build the program:
+
+```bash
+anchor build
+```
+
+6. Test the program:
+
+```rs
+ anchor test
+ anchor test --skip-local-validator  //if local validator is already running
+```
+
+  <br>
+  <br>
+  <br>
+<!-- 
+### 02. Web App - Frontend
+
+1. Go to the deployed frontend at https://notesols-dapp.vercel.app/notesols
+
+Or,
+
+2. Run the development server at the root directory:
+
+```bash
+npm run dev
+```
+
+-->
+
+5. Open http://localhost:3000/notesols in your browser to see the result, and ineteract with the program.
 
 ![image](https://github.com/user-attachments/assets/e510f506-e8ea-4dbf-b009-d0bcf11ffbf4)
 
 [View on Eraser](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
-
-## Getting Started
-
-### Prerequisites
-
-- Node v18.18.0 or higher
-
-- Rust v1.77.2 or higher
-- Anchor CLI 0.30.1 or higher
-- Solana CLI 1.18.17 or higher
-
-### Installation
-
-#### Clone the repo
-
-```shell
-git clone <repo-url>
-cd <repo-name>
-```
-
-#### Install Dependencies
-
-```shell
-pnpm install
-```
-
-#### Start the web app
-
-```
-pnpm dev
-```
-
-## Apps
-
-### anchor
-
-This is a Solana program written in Rust using the Anchor framework.
-
-#### Commands
-
-You can use any normal anchor commands. Either move to the `anchor` directory and run the `anchor` command or prefix the command with `pnpm`, eg: `pnpm anchor`.
-
-#### Sync the program id:
-
-Running this command will create a new keypair in the `anchor/target/deploy` directory and save the address to the Anchor config file and update the `declare_id!` macro in the `./src/lib.rs` file of the program.
-
-You will manually need to update the constant in `anchor/lib/counter-exports.ts` to match the new program id.
-
-```shell
-pnpm anchor keys sync
-```
-
-#### Build the program:
-
-```shell
-pnpm anchor-build
-```
-
-#### Start the test validator with the program deployed:
-
-```shell
-pnpm anchor-localnet
-```
-
-#### Run the tests
-
-```shell
-pnpm anchor-test
-```
-
-#### Deploy to Devnet
-
-```shell
-pnpm anchor deploy --provider.cluster devnet
-```
-
-### web
-
-This is a React app that uses the Anchor generated client to interact with the Solana program.
-
-#### Commands
-
-Start the web app
-
-```shell
-pnpm dev
-```
-
-Build the web app
-
-```shell
-pnpm build
-```
