@@ -9,7 +9,7 @@ pub struct UserAccount {
     pub published: u8,
     pub purchased: u16,
     pub reviewed: u16,
-    pub earning: u64,
+    pub earning: i64,
     pub bump: u8,
     pub vault_bump: u8,
 }

@@ -42,7 +42,7 @@ impl<'info> UserInit<'info> {
             published: 0u8,
             purchased: INIT_STAT,
             reviewed: INIT_STAT,
-            earning: 0u64,
+            earning: 0i64,
             bump: bumps.user_account,
             vault_bump: bumps.user_vault,
         });

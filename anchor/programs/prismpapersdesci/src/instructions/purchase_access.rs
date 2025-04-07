@@ -138,7 +138,7 @@ impl<'info> PurchaseAccess<'info> {
         self.buyer_user_account.purchased += 1u16;
         self.publisher_user_account
             .earning
-            .checked_add(publisher_amount)
+            .checked_add(publisher_amount as i64)
             .ok_or(error!(ErrorCodes::MathOverflow))?;
 
         Ok(())

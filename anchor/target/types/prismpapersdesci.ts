@@ -1327,7 +1327,7 @@ export type Prismpapersdesci = {
           },
           {
             "name": "earning",
-            "type": "u64"
+            "type": "i64"
           },
           {
             "name": "bump",
