@@ -2,12 +2,14 @@
  ### Proof Of Work During My Time In TURBIN3 Builders Cohort Q1 2025 :  [Q1_25_Builder_AhindraD](https://github.com/solana-turbin3/Q1_25_Builder_AhindraD)
  
 # CAPSTONE - PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
+## Deployed on DevNet: [5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv](https://explorer.solana.com/address/5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv?cluster=devnet)
 
 - ## [PrismPapers - Architectural Diagram](https://app.eraser.io/workspace/srtYuk9xciXjH6IUKwJs)
  
   ![image](https://github.com/user-attachments/assets/bdf852ab-567b-4bfa-98ea-fa09a5025e67)
 
   ![image](https://github.com/user-attachments/assets/549e15a7-e074-4a51-80a7-4c1e13b580e4)
+![prism-tests](https://github.com/user-attachments/assets/5e66b9b3-1e1d-43b4-b21d-13aab6afc9ae)
 
 
 - ## Project Overview: [PrismPapers - Teaser](https://ai.invideo.io/watch/eWg44dhBM4n)
