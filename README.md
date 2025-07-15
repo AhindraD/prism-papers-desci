@@ -1,5 +1,6 @@
-![Screenshot 2025-01-08 153657](https://github.com/user-attachments/assets/a711cf94-86c1-44e4-8a34-85f46cf8ac5a)
- ### Proof Of Work During My Time In TURBIN3 Builders Cohort Q1 2025 :  [Q1_25_Builder_AhindraD](https://github.com/solana-turbin3/Q1_25_Builder_AhindraD)
+![turbine-x-banner](https://github.com/user-attachments/assets/7f9c8896-f0b0-4fd5-995a-1d479b70cba0)
+
+ ### Proof Of Work During My Time In TURBIN3 Builders & AdvancedSVM Cohort 2025 :  [Q1_25_Builder_AhindraD](https://github.com/solana-turbin3/Q1_25_Builder_AhindraD)
  
 # CAPSTONE - PrismPapers: The Transparent Research Publishing and Reviewing Platform. [DeSci]
 ## Deployed on DevNet: [5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv](https://explorer.solana.com/address/5MRvAZkDQK1u27EEzrdpKS6uUKsGqEPRkztZVapcTcLv?cluster=devnet)
@@ -9,35 +10,78 @@
   ![image](https://github.com/user-attachments/assets/bdf852ab-567b-4bfa-98ea-fa09a5025e67)
 
   ![image](https://github.com/user-attachments/assets/549e15a7-e074-4a51-80a7-4c1e13b580e4)
-![prism-tests](https://github.com/user-attachments/assets/5e66b9b3-1e1d-43b4-b21d-13aab6afc9ae)
 
 
-- ## Project Overview: [PrismPapers - Teaser](https://ai.invideo.io/watch/eWg44dhBM4n)
 
-  PrismPapers is a blockchain-based platform designed to shake things up in academic publishing.
-  Traditional academic publishing takes forever, costs too much, and is often opaque.
-  PrismPapers is my way of fixing this mess. With blockchain, we can make the whole process speedy, transparent, and rewarding for everyone involved. Plus, I’m a tech geek who loves using blockchain to solve real-world problems.
+## I. Project Overview [PrismPapers - Teaser](https://ai.invideo.io/watch/eWg44dhBM4n)
+- Project Name:
+  PrismPapers – The Private & Transparent Research Publishing and Reviewing Platform
 
-- ### Project Setup Pre-requisites:
+- Brief Project Description:
+PrismPapers is a next-generation academic publishing platform that leverages blockchain and MPC (Multi-Party Computation) to fix the core flaws in traditional publishing—delays, high costs, lack of transparency, and poor incentives.
 
-  - [rustup 1.27.1 stable](https://www.rust-lang.org/tools/install)
-    ```bash
-    rustup default stable
-    ```
-  - [solana-cli 2.1.5 (client : Agave)](https://docs.solana.com/cli/install-solana-cli-tools)
+Built on Solana, PrismPapers offers fast, low-cost, and censorship-resistant infrastructure for researchers to submit, review, and publish papers openly. Reviews are recorded transparently, and contributors are rewarded with tokens.
 
-    ```bash
-    agave-install init 2.1.5
-    ```
+With MPC, PrismPapers introduces privacy-preserving peer review, allowing sensitive review data (like scores, conflict checks, and reviewer identity) to be processed securely—ensuring double-blind anonymity and trust without sacrificing decentralization.
 
-  - [anchor-cli 0.30.1](https://www.anchor-lang.com/docs/installation)
+Authors retain full copyright and can monetize their work via tokenized access or optional donations. Institutions can support their researchers and purchase bulk access for their communities—all while preserving data confidentiality via MPC.
 
-    ```bash
-    avm use 0.30.1
-    ```
+This is about making research faster, fairer, more transparent, and now—private by design.
+
+- Reason for Choosing This Project:
+Traditional academic publishing is broken—it's slow, expensive, and often operates behind closed doors. PrismPapers is my way of rethinking that system. With blockchain and MPC, we can build a model that’s transparent and private, open and secure. As someone passionate about solving real-world problems with cutting-edge tech, this project lets me do exactly that.
+
+## II. Go-to-Market Strategy
+- Target Audience
+Researchers: Academics seeking a fast, fair, and open way to publish
+
+Reviewers: Experts who want their work to be recognized and rewarded
+
+Institutions: Universities and research orgs seeking affordable access
+
+Individual Readers: Students and professionals accessing research directly
+
+- Value Proposition
+Stakeholder	Value
+Researchers	Quick publishing, copyright ownership, and optional monetization
+Reviewers	Token rewards for timely, quality, privacy-protected reviews
+Institutions	Affordable research access and integration into existing workflows
+Readers	Paywall-free or low-cost access to cutting-edge academic work
+
+- Privacy & Trust Features (MPC-Specific)
+Encrypted peer review logic (e.g., scoring, reviewer assignment)
+
+Blind review protection via secure multiparty computation
+
+Institutional analytics and usage tracking without compromising user privacy
+
+Marketing & Distribution
+Partner with universities, DeSci orgs, and privacy/blockchain communities
+
+Outreach via LinkedIn, ResearchGate, Twitter
+
+Host technical blogs, webinars, and DeSci panels
+
+Demo at academic and Web3 events to attract early adopters
+
+- What Makes PrismPapers Unique?
+⚡ Solana for scalability and low fees
+
+🔒 MPC for private, verifiable computation
+
+🎯 Tokenized incentives for faster, higher-quality reviews
+
+📖 Open-access with optional monetization—creators stay in control
+
+🧠 Reputation-based rewards for constructive, honest feedback
+
+🏛️ Institution-friendly structure with transparent but privacy-respecting access
+
+
+
 
   <br>
-
+![prism-tests](https://github.com/user-attachments/assets/5e66b9b3-1e1d-43b4-b21d-13aab6afc9ae)
 - ## Run Anchor Program and Tests Locally:
   - ### [Anchor Program Files](https://github.com/AhindraD/prism-papers-desci/tree/main/anchor/programs/prismpapersdesci/src)
   - ### [Test File](https://github.com/AhindraD/prism-papers-desci/blob/main/anchor/tests/prismpapersdesci.spec.ts)
