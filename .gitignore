@@ -1,6 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 **/*wallet.json
+**/.DS_Store
+**/target
+**/*.rs.bk
+**/node_modules
+**/test-ledger
+**/.yarn
+**/.anchor
 
 # dependencies
 /node_modules

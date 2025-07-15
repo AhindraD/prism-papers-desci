@@ -13,7 +13,7 @@ url = "https://api.apr.dev"
 
 [provider]
 cluster = "Localnet"
-wallet = "~/.config/solana/Turbin3-wallet.json"
+wallet = "~/menageri3.json"
 
 [scripts]
 test = "../node_modules/.bin/jest --preset ts-jest"
